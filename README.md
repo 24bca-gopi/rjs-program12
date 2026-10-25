@@ -1,226 +1,528 @@
-# Lab Program 12 – ER Diagram for College Management System
+# React Shopping Cart – `.map()` and `useState()`
 
-## Aim
+## Practical Assignment
 
-To create an Entity-Relationship (ER) diagram for a College Management System using MySQL Workbench.
+### Title
+
+**Develop a Shopping Cart using React, `.map()` and `useState()`**
+
+### Objective
+
+Develop a React application that displays a list of products in a shopping cart.
+
+The application should use:
+
+* React
+* `useState()` Hook
+* `.map()` method
+* Event handling
+* Array manipulation
+* Dynamic calculation of total amount
+
+---
 
 ## Problem Statement
 
-Draw an ER diagram for a College Management System including the following entities:
+Create a **React Shopping Cart application** with the following features:
 
-* Student
-* Course
-* Faculty
-* Department
+1. Store the shopping cart products using the `useState()` Hook.
+2. Display all products using the `.map()` method.
+3. Display the following details for each product:
 
-Use the following relationships:
-
-1. One Department has many Students.
-2. One Faculty handles many Courses.
-3. Many Students can enroll in many Courses.
-
-Clearly represent the relationship cardinalities:
-
-* One-to-One (1:1)
-* One-to-Many (1:M)
-* Many-to-Many (M:N)
-
-## Software Required
-
-* MySQL Workbench
-* GitHub account
-* Git
-
-## Required Entities
-
-The EER model must contain the following four entities:
-
-### Student
-
-Suggested attributes:
-
-* StudentID – Primary Key
-* StudentName
-* Email
-* Phone
-
-### Course
-
-Suggested attributes:
-
-* CourseID – Primary Key
-* CourseName
-* Credits
-
-### Faculty
-
-Suggested attributes:
-
-* FacultyID – Primary Key
-* FacultyName
-* Email
-
-### Department
-
-Suggested attributes:
-
-* DepartmentID – Primary Key
-* DepartmentName
-
-Students may add additional meaningful attributes.
-
-## Required Relationships
-
-### 1. Department – Student
-
-```text
-Department 1 ───────── N Student
-```
-
-Relationship type:
-
-**One-to-Many (1:M)**
-
-Meaning:
-
-> One Department has many Students.
+   * Product Name
+   * Price
+   * Quantity
+4. Provide a **+ button** to increase the quantity.
+5. Provide a **− button** to decrease the quantity.
+6. Calculate and display the total cart amount dynamically.
+7. Use a unique `key` value while displaying products using `.map()`.
 
 ---
 
-### 2. Faculty – Course
+## Initial Product Details
+
+The application should initially contain the following products:
+
+| Product    |   Price | Quantity |
+| ---------- | ------: | -------: |
+| Laptop     | ₹50,000 |        1 |
+| Headphones |  ₹2,000 |        1 |
+| Mouse      |    ₹800 |        1 |
+
+### Initial Total
 
 ```text
-Faculty 1 ───────── N Course
+₹52,800
 ```
-
-Relationship type:
-
-**One-to-Many (1:M)**
-
-Meaning:
-
-> One Faculty handles many Courses.
 
 ---
 
-### 3. Student – Course
+## Expected Output
+
+The application should display something similar to:
 
 ```text
-Student M ───────── N Course
+Shopping Cart
+
+Laptop
+Price: ₹50000
+Quantity: 1
+
+[-] [+]
+
+Headphones
+Price: ₹2000
+Quantity: 1
+
+[-] [+]
+
+Mouse
+Price: ₹800
+Quantity: 1
+
+[-] [+]
+
+Total: ₹52800
 ```
 
-Relationship type:
+---
 
-**Many-to-Many (M:N)**
+## Expected Behaviour
 
-Meaning:
+### 1. Display Products
 
-> Many Students can enroll in many Courses.
-
-In a relational implementation, this M:N relationship can be represented using an associative entity such as:
+When the application is opened, all three products should be displayed.
 
 ```text
-Enrollment
-----------------
-EnrollmentID
-StudentID
-CourseID
+Laptop
+Headphones
+Mouse
 ```
 
-Students should represent the M:N relationship appropriately in their Workbench model.
+### 2. Increase Quantity
 
-## One-to-One Relationship
-
-The given College Management System requirements do **not require a 1:1 relationship**.
-
-Students must clearly understand the difference between:
+When the `+` button for Laptop is clicked:
 
 ```text
-1 : 1  → One-to-One
-1 : N  → One-to-Many
-M : N  → Many-to-Many
+Laptop
+Quantity: 2
 ```
 
-The required relationships for this practical are:
+The total should become:
 
 ```text
-Department 1 : N Student
-Faculty    1 : N Course
-Student    M : N Course
+₹102800
 ```
 
-## MySQL Workbench Instructions
+### 3. Decrease Quantity
 
-1. Open MySQL Workbench.
-2. Select **File → New Model**.
-3. Create the required tables/entities.
-4. Add the required attributes.
-5. Mark the appropriate primary keys.
-6. Create the required relationships.
-7. Ensure the cardinalities are correctly represented.
-8. Resolve the M:N Student–Course relationship using an appropriate associative entity if required.
-9. Arrange the model clearly.
-10. Save the model.
+When the `−` button is clicked, the quantity should decrease.
 
-## Required Submission Files
+The total amount should also be updated automatically.
 
-Students must submit:
+### 4. Dynamic Total
+
+The total should change whenever the quantity of a product changes.
+
+---
+
+# React Concepts to Use
+
+## 1. `useState()`
+
+Use the `useState()` Hook to store the cart data.
+
+Example:
+
+```javascript
+const [cart, setCart] = useState([
+  {
+    id: 1,
+    name: "Laptop",
+    price: 50000,
+    quantity: 1
+  }
+]);
+```
+
+---
+
+## 2. `.map()`
+
+Use `.map()` to display each product.
+
+Example:
+
+```javascript
+cart.map((item) => (
+  <div key={item.id}>
+    <h2>{item.name}</h2>
+    <p>Price: ₹{item.price}</p>
+  </div>
+))
+```
+
+---
+
+## 3. Event Handling
+
+Use button click events to modify the quantity.
+
+Example:
+
+```javascript
+<button onClick={increaseQuantity}>
+  +
+</button>
+```
+
+---
+
+# Project Folder Structure
+
+The repository should have the following structure:
 
 ```text
-ER_Diagram.mwb
-ER_Diagram.png
-model_check.txt
+react-shopping-cart/
+│
+├── public/
+│   └── index.html
+│
+├── src/
+│   ├── App.js
+│   ├── App.test.js
+│   └── index.js
+│
+├── .github/
+│   └── workflows/
+│       └── autograding.yml
+│
+├── package.json
+└── README.md
 ```
 
-### ER_Diagram.mwb
+### Important Files
 
-The original MySQL Workbench model file.
+| File                                | Purpose                             |
+| ----------------------------------- | ----------------------------------- |
+| `src/App.js`                        | Main React application              |
+| `src/App.test.js`                   | Automated test cases                |
+| `src/index.js`                      | React application entry point       |
+| `public/index.html`                 | HTML page containing the React root |
+| `package.json`                      | Project dependencies and scripts    |
+| `.github/workflows/autograding.yml` | GitHub Actions automated testing    |
+| `README.md`                         | Assignment instructions             |
 
-### ER_Diagram.png
+---
 
-Export the EER diagram from MySQL Workbench as a PNG image.
+# How to Run the Program
 
-The image must clearly show:
+## Step 1: Clone the Repository
 
-* Entity names
-* Attributes
-* Primary keys
-* Relationships
-* Cardinalities
-
-### model_check.txt
-
-Complete the checklist provided in the starter repository.
-
-## GitHub Submission
-
-After completing the practical:
+Clone your GitHub Classroom repository.
 
 ```bash
-git add .
-git commit -m "Completed Lab Program 12"
-git push
+git clone YOUR_REPOSITORY_URL
 ```
 
-Open the **Actions** tab in GitHub to view the automated checking result.
+Move into the project folder:
 
-## Important
+```bash
+cd react-shopping-cart
+```
 
-Do not modify:
+---
+
+## Step 2: Install Dependencies
+
+Open the terminal in the project folder and run:
+
+```bash
+npm install
+```
+
+This installs all required React packages.
+
+---
+
+## Step 3: Start the React Application
+
+Run:
+
+```bash
+npm start
+```
+
+The application will start in the browser.
+
+Usually it will open at:
 
 ```text
-test.sh
+http://localhost:3000
+```
+
+If the browser does not open automatically, open the address manually.
+
+---
+
+# How to Stop the Application
+
+In the terminal, press:
+
+```text
+Ctrl + C
+```
+
+---
+
+# How to Run Automated Tests
+
+The project contains automated test cases in:
+
+```text
+src/App.test.js
+```
+
+Run the tests using:
+
+```bash
+npm test
+```
+
+The tests check whether the application satisfies the required functionality.
+
+For example:
+
+```text
+✓ displays the shopping cart heading
+✓ displays all products
+✓ displays initial total
+✓ increases laptop quantity
+✓ decreases quantity
+```
+
+---
+
+# GitHub Actions Autograding
+
+This assignment uses **GitHub Actions** for automated testing.
+
+The workflow file is located at:
+
+```text
 .github/workflows/autograding.yml
 ```
 
+Whenever you push your code to GitHub, GitHub Actions will automatically run the tests.
+
+The process is:
+
+```text
+Write Program
+     ↓
+Test Locally
+     ↓
+git add .
+     ↓
+git commit
+     ↓
+git push
+     ↓
+GitHub Actions
+     ↓
+Automated Tests
+     ↓
+PASS / FAIL
+```
+
+---
+
+# How to Submit
+
+After completing the program, save your changes and run:
+
+```bash
+git add .
+```
+
+Then:
+
+```bash
+git commit -m "Completed Shopping Cart practical"
+```
+
+Finally:
+
+```bash
+git push
+```
+
+Your GitHub Classroom repository will then contain your completed assignment.
+
+---
+
+# Important Submission Requirements
+
+Before submitting, make sure that:
+
+* [ ] `App.js` contains the React Shopping Cart.
+* [ ] `useState()` is used.
+* [ ] `.map()` is used to display products.
+* [ ] Product name is displayed.
+* [ ] Product price is displayed.
+* [ ] Product quantity is displayed.
+* [ ] `+` button increases quantity.
+* [ ] `−` button decreases quantity.
+* [ ] Total amount is calculated dynamically.
+* [ ] Each mapped product has a unique `key`.
+* [ ] The application runs without errors.
+* [ ] All automated tests pass.
+* [ ] The latest code is pushed to GitHub.
+
+---
+
+# Testing Checklist
+
+Before pushing your code, test the following manually:
+
+### Test 1 – Product Display
+
+Check whether these products are displayed:
+
+```text
+Laptop
+Headphones
+Mouse
+```
+
+### Test 2 – Initial Quantity
+
+Check whether every product initially has:
+
+```text
+Quantity: 1
+```
+
+### Test 3 – Initial Total
+
+The initial total should be:
+
+```text
+₹52800
+```
+
+### Test 4 – Increase Quantity
+
+Click `+` for Laptop.
+
+Expected:
+
+```text
+Laptop Quantity: 2
+Total: ₹102800
+```
+
+### Test 5 – Decrease Quantity
+
+Click `−` for Laptop.
+
+The quantity and total should be updated.
+
+### Test 6 – Multiple Products
+
+Increase the quantity of more than one product and verify that the total is updated correctly.
+
+---
+
+# Marks Distribution
+
+| Criteria                        |        Marks |
+| ------------------------------- | -----------: |
+| Correct use of `useState()`     |            1 |
+| Display products using `.map()` |            2 |
+| Display product name and price  |            1 |
+| Display quantity                |            1 |
+| Increase quantity               |            2 |
+| Decrease quantity               |            1 |
+| Dynamic total calculation       |            2 |
+| **Total**                       | **10 Marks** |
+
+---
+
+# Important Instructions
+
+1. Do not remove the existing project structure.
+2. Do not change the automated test files.
+3. Do not remove the GitHub Actions workflow.
+4. Complete the implementation in `src/App.js`.
+5. Use React and the `useState()` Hook.
+6. Use `.map()` to display the products.
+7. Test your application before submitting.
+8. Push the final working program to your GitHub Classroom repository.
+
+---
+
+# Useful Commands
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Start application
+
+```bash
+npm start
+```
+
+### Run tests
+
+```bash
+npm test
+```
+
+### Build application
+
+```bash
+npm run build
+```
+
+### Check Git status
+
+```bash
+git status
+```
+
+### Add changes
+
+```bash
+git add .
+```
+
+### Commit changes
+
+```bash
+git commit -m "Completed practical"
+```
+
+### Push changes
+
+```bash
+git push
+```
+
+---
+
 ## Learning Outcome
 
-After completing this practical, students will be able to:
+After completing this practical, students should be able to:
 
-* Identify entities and attributes.
-* Identify primary keys.
-* Create an EER model using MySQL Workbench.
-* Represent one-to-many relationships.
-* Represent many-to-many relationships.
-* Understand one-to-one, one-to-many and many-to-many cardinalities.
-* Export an EER model as a visual diagram.
+* Create a React application.
+* Use the `useState()` Hook.
+* Store and update array-based state.
+* Use `.map()` to render multiple elements.
+* Handle button click events.
+* Update UI dynamically based on state.
+* Implement a simple real-world shopping cart.
+* Use GitHub and GitHub Actions for automated testing.
